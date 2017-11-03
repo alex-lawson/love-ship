@@ -15,33 +15,33 @@ function love.load()
 
     MainCamera = Camera()
 
-    Game = MyGame()
+    GameInstance = Game()
 end
 
 function love.update(dt)
-    Game:update(dt)
+    GameInstance:update(dt)
 end
 
 function love.draw()
     MainCamera:do_transform()
 
-    Game:render()
+    GameInstance:render()
 end
 
 function love.mousepressed(x, y, button)
-    Game:mouse_pressed(MainCamera:screen_to_world(vec2(x, y)), button)
+    GameInstance:mouse_pressed(MainCamera:screen_to_world(vec2(x, y)), button)
 end
 
 function love.mousereleased(x, y, button)
-    Game:mouse_released(MainCamera:screen_to_world(vec2(x, y)), button)
+    GameInstance:mouse_released(MainCamera:screen_to_world(vec2(x, y)), button)
 end
 
 function love.keypressed(key)
-    Game:key_pressed(key)
+    GameInstance:key_pressed(key)
 end
 
 function love.keyreleased(key)
-    Game:key_released(key)
+    GameInstance:key_released(key)
 end
 
 function love.focus(f)

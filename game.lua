@@ -1,29 +1,29 @@
-MyGame = class()
+Game = class()
 
-function MyGame:init()
-
-end
-
-function MyGame:update(dt)
+function Game:init()
 
 end
 
-function MyGame:render()
+function Game:update(dt)
 
 end
 
-function MyGame:mouse_pressed(pos, button)
+function Game:render()
 
 end
 
-function MyGame:mouse_released(pos, button)
+function Game:mouse_pressed(pos, button)
 
 end
 
-function MyGame:key_pressed(key)
+function Game:mouse_released(pos, button)
 
 end
 
-function MyGame:key_released(key)
+function Game:key_pressed(key)
+
+end
+
+function Game:key_released(key)
 
 end
