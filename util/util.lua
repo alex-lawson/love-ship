@@ -27,6 +27,10 @@ function class(...)
     return class
 end
 
+function errorf(fstring, ...)
+    error(string.format(fstring, ...))
+end
+
 function copy(v)
     if type(v) ~= "table" then
         return v

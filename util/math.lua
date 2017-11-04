@@ -30,6 +30,10 @@ function round(x, decimals)
     return math.floor((x * (10 ^ decimals)) + 0.5) / (10 ^ decimals)
 end
 
+function clamp(x, min, max)
+    return x < min and min or (x > max and max or x)
+end
+
 -- Returns whether the three given points are in a straight line (returns 0),
 -- go counter clockwise (returns > 0) or go clockwise (returns < 0)
 function winding_direction(p1, p2, p3)

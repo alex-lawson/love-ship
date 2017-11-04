@@ -5,6 +5,8 @@ require 'util/rect'
 require 'util/poly'
 require 'util/math'
 require 'util/camera'
+require 'util/animation'
+
 require 'game'
 
 function love.load()
@@ -34,6 +36,10 @@ end
 
 function love.mousereleased(x, y, button)
     GameInstance:mouse_released(MainCamera:screen_to_world(vec2(x, y)), button)
+end
+
+function love.wheelmoved(x, y)
+    GameInstance:mouse_wheel_moved(x, y)
 end
 
 function love.keypressed(key)

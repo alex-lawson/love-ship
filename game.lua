@@ -20,6 +20,10 @@ function Game:mouse_released(pos, button)
 
 end
 
+function Game:mouse_wheel_moved(x, y)
+
+end
+
 function Game:key_pressed(key)
 
 end
