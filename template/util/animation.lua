@@ -1,14 +1,4 @@
-local animation_textures = {}
-
-local function get_tex(tex_path)
-    if not animation_textures[tex_path] then
-        animation_textures[tex_path] = love.graphics.newImage(tex_path)
-    end
-
-    return animation_textures[tex_path]
-end
-
-local function build_quads(source_tex, frame_size, frame_padding, frame_offset, frame_count)
+local function build_animation_state_quads(source_tex, frame_size, frame_padding, frame_offset, frame_count)
     local tw, th = source_tex:getDimensions()
 
     local quads = {}
@@ -23,7 +13,7 @@ end
 Animation = class()
 
 function Animation:init(conf)
-    self.source_tex = get_tex(conf.source_image)
+    self.source_tex = load_image(conf.source_image)
     self.frame_size = vec2(conf.frame_size)
     self.frame_padding = vec2(conf.frame_padding)
     self.default_state = conf.default_state
@@ -43,7 +33,7 @@ function Animation:init(conf)
             frames = state_conf.frames,
             cycle = state_conf.cycle,
             transition = state_conf.transition,
-            quads = build_quads(self.source_tex, self.frame_size, self.frame_padding, vec2(state_conf.frame_offset), state_conf.frames)
+            quads = build_animation_state_quads(self.source_tex, self.frame_size, self.frame_padding, vec2(state_conf.frame_offset), state_conf.frames)
         }
     end
 

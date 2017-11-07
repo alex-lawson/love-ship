@@ -1,4 +1,4 @@
-require "example/animation_configs"
+require 'example/animation_configs'
 
 Game = class()
 
@@ -7,6 +7,15 @@ function Game:init()
     self.cam_zoom = 1.0
 
     self.ball = Animation(animation_configs.ball)
+
+    local tile_set = TileSet({
+        source_image = "example/tiles.png",
+        tile_size = {16, 16}
+    })
+
+    local map_data = MapData("example/map_data.txt")
+
+    self.tile_map = TileMap(tile_set, map_data)
 end
 
 function Game:update(dt)
@@ -14,6 +23,8 @@ function Game:update(dt)
 end
 
 function Game:render()
+    self.tile_map:draw(self.tile_map:size() * -0.5)
+
     self.ball:draw(vec2())
 end
 

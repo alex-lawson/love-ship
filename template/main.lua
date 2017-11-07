@@ -1,4 +1,5 @@
 require 'util/util'
+require 'util/assets'
 require 'util/enum'
 require 'util/vec2'
 require 'util/rect'
@@ -6,6 +7,7 @@ require 'util/poly'
 require 'util/math'
 require 'util/camera'
 require 'util/animation'
+require 'util/tilemap'
 
 -- for testing, switch to:
 -- require 'example/example_game'
