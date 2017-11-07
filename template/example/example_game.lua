@@ -1,4 +1,4 @@
-require "test/animation_configs"
+require "example/animation_configs"
 
 Game = class()
 
