@@ -17,8 +17,9 @@ function Animation:init(conf)
     self.frame_size = vec2(conf.frame_size)
     self.frame_padding = vec2(conf.frame_padding)
     self.default_state = conf.default_state
-    self.centered = conf.centered or false
 
+    self.position = vec2(conf.position)
+    self.centered = conf.centered or false
     if self.centered then
         self.draw_offset = self.frame_size * -0.5
     else
@@ -56,10 +57,9 @@ function Animation:update(dt)
     end
 end
 
-function Animation:draw(pos)
+function Animation:draw()
     local frame_index = clamp(math.floor((self.state_cycle / self.state.cycle) * self.state.frames) + 1, 1, self.state.frames)
-    pos = pos + self.draw_offset
-    love.graphics.draw(self.source_tex, self.state.quads[frame_index], pos[1], pos[2])
+    love.graphics.draw(self.source_tex, self.state.quads[frame_index], self.position[1] + self.draw_offset[1], self.position[2] + self.draw_offset[2])
 end
 
 function Animation:set_state(state_name, reset_cycle)
@@ -76,6 +76,10 @@ function Animation:set_state(state_name, reset_cycle)
     end
 
     return false
+end
+
+function Animation:set_position(pos)
+    self.position = pos
 end
 
 function Animation:set_rate(rate)

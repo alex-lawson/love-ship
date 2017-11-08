@@ -59,10 +59,10 @@ function TileMap:init(tile_set, map_data)
     self.map_data = map_data
 end
 
-function TileMap:draw(pos)
+function TileMap:draw()
     for x = 1, self.map_data.map_size[1] do
         for y = 1, self.map_data.map_size[2] do
-            local draw_pos = pos + vec2(x - 1, y - 1) * self.tile_set.tile_size
+            local draw_pos = self:tile_position(x, y)
             local tile_index = self.map_data:get(x, y)
             if tile_index > 0 then
                 love.graphics.draw(self.tile_set.source_tex, self.tile_set.tile_quads[tile_index], draw_pos[1], draw_pos[2])
@@ -71,6 +71,32 @@ function TileMap:draw(pos)
     end
 end
 
+function TileMap:set_position(pos)
+    self.position = pos
+end
+
 function TileMap:size()
     return self.tile_set.tile_size * self.map_data.map_size
+end
+
+function TileMap:bounds()
+    return rect(self.position, self.position + self:size())
+end
+
+function TileMap:tile_at(world_pos)
+    if self:bounds():contains(world_pos) then
+        local transformed = (world_pos - self.position) / self.tile_set.tile_size
+        local x = math.floor(transformed[1]) + 1
+        local y = math.floor(transformed[2]) + 1
+        local v = self.map_data:get(x, y)
+        return v, x, y
+    end
+end
+
+function TileMap:tile_position(x, y)
+    return self.position + vec2(x - 1, y - 1) * self.tile_set.tile_size
+end
+
+function TileMap:tile_center(x, y)
+    return self:tile_position(x, y) + self.tile_set.tile_size * 0.5
 end

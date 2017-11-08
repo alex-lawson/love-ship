@@ -127,3 +127,17 @@ end
 function vec2.min(l, r)
     return vec2(math.min(l[1], r[1]), math.min(l[2], r[2]))
 end
+
+function approach_vec2(current, target, rate, dt)
+    return vec2(
+        approach(current[1], target[1], rate, dt),
+        approach(current[2], target[2], rate, dt)
+    )
+end
+
+function lerp_vec2(ratio, a, b)
+    return vec2(
+        lerp(ratio, a[1], b[1]),
+        lerp(ratio, a[2], b[2])
+    )
+end
