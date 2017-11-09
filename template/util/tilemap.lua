@@ -25,7 +25,17 @@ function TileSet:init(conf)
     self.tile_quads, self.tile_count = build_tileset_quads(self.source_tex, self.tile_size)
 end
 
-local function load_map_data(source_file)
+MapData = class()
+
+function MapData:init(data, map_size)
+    self.data, self.map_size = data, map_size
+end
+
+function MapData:get(x, y)
+    return self.data[(y - 1) * self.map_size[1] + x]
+end
+
+function MapData.from_txt_file(source_file)
     local size_x
     local size_y = 0
     local map_data = {}
@@ -39,17 +49,17 @@ local function load_map_data(source_file)
         end
     end
 
-    return map_data, vec2(size_x, size_y)
+    return MapData(map_data, vec2(size_x, size_y))
 end
 
-MapData = class()
+function MapData.with_size(map_size)
+    local map_data = {}
 
-function MapData:init(source_file)
-    self.data, self.map_size = load_map_data(source_file)
-end
+    for i = 1, map_size[1] * map_size[2] do
+        table.insert(map_data, 0)
+    end
 
-function MapData:get(x, y)
-    return self.data[(y - 1) * self.map_size[1] + x]
+    return MapData(map_data, map_size)
 end
 
 TileMap = class()

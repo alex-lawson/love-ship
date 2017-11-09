@@ -2,7 +2,7 @@ animation_configs = {}
 
 animation_configs.ball = {
     source_image = "example/ball.png",
-    default_state = "idle_r",
+    default_state = "spin_r",
     frame_size = {16, 16},
     frame_padding = {1, 1},
     centered = true,
