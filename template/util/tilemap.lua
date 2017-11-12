@@ -35,6 +35,10 @@ function MapData:get(x, y)
     return self.data[(y - 1) * self.map_size[1] + x]
 end
 
+function MapData:set(x, y, v)
+    self.data[(y - 1) * self.map_size[1] + x] = v
+end
+
 function MapData.from_txt_file(source_file)
     local size_x
     local size_y = 0
@@ -67,6 +71,7 @@ TileMap = class()
 function TileMap:init(tile_set, map_data)
     self.tile_set = tile_set
     self.map_data = map_data
+    self.position = vec2()
 end
 
 function TileMap:draw()
