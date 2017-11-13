@@ -9,8 +9,6 @@ require 'util/camera'
 require 'util/animation'
 require 'util/tilemap'
 
--- for testing, switch to:
--- require 'example/example_game'
 require 'game'
 
 function love.load()
