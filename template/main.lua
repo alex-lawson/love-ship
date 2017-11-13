@@ -27,9 +27,13 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.push()
+
     MainCamera:do_transform()
 
     GameInstance:render()
+
+    love.graphics.pop()
 end
 
 function love.mousepressed(x, y, button)
