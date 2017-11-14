@@ -31,7 +31,7 @@ function round(x, decimals)
 end
 
 function clamp(x, min, max)
-    return x < min and min or (x > max and max or x)
+    return math.min(max, math.max(min, x))
 end
 
 -- Returns whether the three given points are in a straight line (returns 0),
