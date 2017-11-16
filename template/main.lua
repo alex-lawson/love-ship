@@ -7,23 +7,25 @@ require 'util/poly'
 require 'util/math'
 require 'util/camera'
 require 'util/animation'
-require 'util/tilemap'
+require 'util/fps_counter'
 
 require 'game'
 
 function love.load()
-    GuiFont = love.graphics.newFont("fonts/cour.ttf", 16)
-    love.graphics.setFont(GuiFont)
-
     love.graphics.setDefaultFilter("nearest")
 
     MainCamera = Camera()
 
     GameInstance = Game()
+
+    Fps = FpsCounter()
+    Fps.enabled = false
 end
 
 function love.update(dt)
     GameInstance:update(dt)
+
+    Fps:update(dt)
 end
 
 function love.draw()
@@ -34,6 +36,8 @@ function love.draw()
     GameInstance:render()
 
     love.graphics.pop()
+
+    Fps:render()
 end
 
 function love.mousepressed(x, y, button)
@@ -49,6 +53,10 @@ function love.wheelmoved(x, y)
 end
 
 function love.keypressed(key)
+    if key == "f1" then
+        Fps.enabled = not Fps.enabled
+    end
+
     GameInstance:key_pressed(key)
 end
 
