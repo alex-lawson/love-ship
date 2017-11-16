@@ -8,6 +8,7 @@ require 'util/math'
 require 'util/camera'
 require 'util/animation'
 require 'util/fps_counter'
+require 'util/debug_log'
 
 require 'game'
 
@@ -18,6 +19,8 @@ function love.load()
 
     GameInstance = Game()
 
+    Log = DebugLog()
+
     Fps = FpsCounter()
     Fps.enabled = false
 end
@@ -25,6 +28,7 @@ end
 function love.update(dt)
     GameInstance:update(dt)
 
+    Log:update(dt)
     Fps:update(dt)
 end
 
@@ -37,6 +41,7 @@ function love.draw()
 
     love.graphics.pop()
 
+    Log:render()
     Fps:render()
 end
 
