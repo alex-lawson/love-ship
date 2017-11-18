@@ -3,7 +3,7 @@ Camera = class()
 function Camera:init()
     self.view_scale = vec2(1, 1)
     self.screen_center = vec2(love.graphics.getDimensions()) * 0.5
-    self.view_center = vec2(self.screen_center)
+    self.view_center = vec2()
 end
 
 function Camera:set_scale(new_scale)

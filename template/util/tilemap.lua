@@ -45,7 +45,7 @@ function MapData.from_txt_file(source_file)
     local map_data = {}
 
     -- bare minimum; lots of ways this can mysteriously fail for now
-    for line in io.lines(source_file) do
+    for line in love.filesystem.lines(source_file) do
         size_x = size_x or #line
         size_y = size_y + 1
         for i = 1, #line do
@@ -72,15 +72,28 @@ function TileMap:init(tile_set, map_data)
     self.tile_set = tile_set
     self.map_data = map_data
     self.position = vec2()
+
+    self.cache_dirty = true
+    self.sprite_batch = love.graphics.newSpriteBatch(self.tile_set.source_tex, self.map_data.map_size[1] * self.map_data.map_size[2])
 end
 
 function TileMap:draw()
+    if self.cache_dirty then
+        self:build_sprite_batch()
+        self.cache_dirty = false
+    end
+    
+    love.graphics.draw(self.sprite_batch)
+end
+
+function TileMap:build_sprite_batch()
+    self.sprite_batch:clear()
     for x = 1, self.map_data.map_size[1] do
         for y = 1, self.map_data.map_size[2] do
-            local draw_pos = self:tile_position(x, y)
             local tile_index = self.map_data:get(x, y)
             if tile_index > 0 then
-                love.graphics.draw(self.tile_set.source_tex, self.tile_set.tile_quads[tile_index], draw_pos[1], draw_pos[2])
+                local draw_pos = self:tile_position(x, y)
+                self.sprite_batch:add(self.tile_set.tile_quads[tile_index], unpack(draw_pos))
             end
         end
     end
@@ -88,6 +101,7 @@ end
 
 function TileMap:set_position(pos)
     self.position = pos
+    self.cache_dirty = true
 end
 
 function TileMap:size()
@@ -114,4 +128,13 @@ end
 
 function TileMap:tile_center(x, y)
     return self:tile_position(x, y) + self.tile_set.tile_size * 0.5
+end
+
+function TileMap:set(x, y, v)
+    self.map_data:set(x, y, v)
+    self.cache_dirty = true
+end
+
+function TileMap:get(x, y)
+    return self.map_data:get(x, y)
 end

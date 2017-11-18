@@ -7,6 +7,7 @@ require 'util/poly'
 require 'util/math'
 require 'util/camera'
 require 'util/animation'
+require 'util/tilemap'
 require 'util/fps_counter'
 require 'util/debug_log'
 
