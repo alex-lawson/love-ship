@@ -12,6 +12,10 @@ function Game:render()
 
 end
 
+function Game:uninit()
+
+end
+
 function Game:mouse_pressed(pos, button)
 
 end

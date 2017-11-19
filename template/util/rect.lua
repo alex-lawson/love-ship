@@ -135,12 +135,21 @@ function rect.contains(r, v)
 end
 
 function rect.combine(l, r)
-    return rect(
-        math.min(l[1], r[1]),
-        math.min(l[2], r[2]),
-        math.max(l[3], r[3]),
-        math.max(l[4], r[4])
-    )
+    if #r > 2 then
+        return rect(
+            math.min(l[1], r[1]),
+            math.min(l[2], r[2]),
+            math.max(l[3], r[3]),
+            math.max(l[4], r[4])
+        )
+    else
+        return rect(
+            math.min(l[1], r[1]),
+            math.min(l[2], r[2]),
+            math.max(l[3], r[1]),
+            math.max(l[4], r[2])
+        )
+    end
 end
 
 function rect.poly(r)

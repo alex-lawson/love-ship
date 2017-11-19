@@ -1,5 +1,7 @@
-local function build_tileset_quads(source_tex, tile_size)
+local function build_tileset_quads(source_tex, tile_size, tile_padding)
     local tw, th = source_tex:getDimensions()
+
+    local grid_size = tile_size + tile_padding * 2
 
     local quads = {}
 
@@ -7,12 +9,12 @@ local function build_tileset_quads(source_tex, tile_size)
     local x, y = 0, 0
     while y < th do
         while x < tw do
-            table.insert(quads, love.graphics.newQuad(x, y, tile_size[1], tile_size[2], tw, th))
+            table.insert(quads, love.graphics.newQuad(x + tile_padding[1], y + tile_padding[2], tile_size[1], tile_size[2], tw, th))
             quad_count = quad_count + 1
-            x = x + tile_size[1]
+            x = x + grid_size[1]
         end
         x = 0
-        y = y + tile_size[2]
+        y = y + grid_size[2]
     end
     return quads, quad_count
 end
@@ -22,13 +24,18 @@ TileSet = class()
 function TileSet:init(conf)
     self.source_tex = load_image(conf.source_image)
     self.tile_size = vec2(conf.tile_size)
-    self.tile_quads, self.tile_count = build_tileset_quads(self.source_tex, self.tile_size)
+    self.tile_padding = vec2(conf.tile_padding)
+    self.tile_quads, self.tile_count = build_tileset_quads(self.source_tex, self.tile_size, self.tile_padding)
 end
 
 MapData = class()
 
 function MapData:init(data, map_size)
     self.data, self.map_size = data, map_size
+end
+
+function MapData:in_map(x, y)
+    return x > 0 and y > 0 and x <= self.map_size[1] and y <= self.map_size[2]
 end
 
 function MapData:get(x, y)
@@ -70,11 +77,9 @@ TileMap = class()
 
 function TileMap:init(tile_set, map_data)
     self.tile_set = tile_set
-    self.map_data = map_data
     self.position = vec2()
 
-    self.cache_dirty = true
-    self.sprite_batch = love.graphics.newSpriteBatch(self.tile_set.source_tex, self.map_data.map_size[1] * self.map_data.map_size[2])
+    self:set_map_data(map_data)
 end
 
 function TileMap:draw()
@@ -82,7 +87,6 @@ function TileMap:draw()
         self:build_sprite_batch()
         self.cache_dirty = false
     end
-    
     love.graphics.draw(self.sprite_batch)
 end
 
@@ -97,6 +101,12 @@ function TileMap:build_sprite_batch()
             end
         end
     end
+end
+
+function TileMap:set_map_data(map_data)
+    self.map_data = map_data
+    self.sprite_batch = love.graphics.newSpriteBatch(self.tile_set.source_tex, self.map_data.map_size[1] * self.map_data.map_size[2])
+    self.cache_dirty = true
 end
 
 function TileMap:set_position(pos)
@@ -131,10 +141,15 @@ function TileMap:tile_center(x, y)
 end
 
 function TileMap:set(x, y, v)
-    self.map_data:set(x, y, v)
-    self.cache_dirty = true
+    if self.map_data:in_map(x, y) then
+        self.map_data:set(x, y, v)
+        self.cache_dirty = true
+        return true
+    end
 end
 
 function TileMap:get(x, y)
-    return self.map_data:get(x, y)
+    if self.map_data:in_map(x, y) then
+        return self.map_data:get(x, y)
+    end
 end

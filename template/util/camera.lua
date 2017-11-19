@@ -6,6 +6,10 @@ function Camera:init()
     self.view_center = vec2()
 end
 
+function Camera:resize(new_size)
+    self.screen_center = new_size * 0.5
+end
+
 function Camera:set_scale(new_scale)
     if type(new_scale) == "table" then
         self.view_scale = new_scale

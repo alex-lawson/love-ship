@@ -74,6 +74,10 @@ function love.focus(f)
 
 end
 
-function love.quit()
+function love.resize(w, h)
+    MainCamera:resize(vec2(w, h))
+end
 
+function love.quit()
+    GameInstance:uninit()
 end
