@@ -87,6 +87,7 @@ function TileMap:draw()
         self:build_sprite_batch()
         self.cache_dirty = false
     end
+
     love.graphics.draw(self.sprite_batch)
 end
 
@@ -120,6 +121,26 @@ end
 
 function TileMap:bounds()
     return rect(self.position, self.position + self:size())
+end
+
+function TileMap:non_empty_bounds()
+    local bounds
+    for x = 1, self.map_data.map_size[1] do
+        for y = 1, self.map_data.map_size[2] do
+            if self.map_data:get(x, y) > 0 then
+                if bounds then
+                    bounds = bounds:combine({x - 1, y - 1, x, y})
+                else
+                    bounds = rect(x - 1, y - 1, x, y)
+                end
+            end
+        end
+    end
+
+    if bounds then
+        bounds = bounds * self.tile_set.tile_size + self.position
+        return bounds
+    end
 end
 
 function TileMap:tile_at(world_pos)

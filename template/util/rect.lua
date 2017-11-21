@@ -152,6 +152,10 @@ function rect.combine(l, r)
     end
 end
 
+function rect.floor(r)
+    return rect(map(r, math.floor))
+end
+
 function rect.poly(r)
     return poly({
         vec2(r[1], r[2]),
