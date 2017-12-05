@@ -1,3 +1,5 @@
+local PI, TWO_PI, THREE_PI = math.pi, 2*math.pi, 3*math.pi
+
 function sign(v)
     if v >= 0 then
         return 1
@@ -14,15 +16,16 @@ function lerp(ratio, a, b)
     end
 end
 
-function lerp_vec2(ratio, a, b)
-    return vec2(
-        lerp(ratio, a[1], b[1]),
-        lerp(ratio, a[2], b[2])
-    )
+function approach(current, target, rate, dt)
+    if target < current then
+        return math.max(target, current - math.abs(rate) * dt)
+    else
+        return math.min(target, current + math.abs(rate) * dt)
+    end
 end
 
 function angle_diff(from, to)
-  return ((((to - from) % (2*math.pi)) + (3*math.pi)) % (2*math.pi)) - math.pi
+  return ((((to - from) % (TWO_PI)) + (THREE_PI)) % (TWO_PI)) - PI
 end
 
 function round(x, decimals)

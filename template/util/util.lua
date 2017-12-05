@@ -293,18 +293,3 @@ function construct_path(t, ...)
     return t
 end
 
-function approach(current, target, rate, dt)
-    if target < current then
-        return math.max(target, current - math.abs(rate) * dt)
-    else
-        return math.min(target, current + math.abs(rate) * dt)
-    end
-end
-
-function lerp(ratio, a, b)
-    if type(a) == "table" then
-        return a[1] + (a[2] - a[1]) * ratio
-    else
-        return a + (b - a) * ratio
-    end
-end
