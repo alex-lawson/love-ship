@@ -8,7 +8,11 @@ function Game:update(dt)
 
 end
 
-function Game:render()
+function Game:render_world()
+
+end
+
+function Game:render_gui()
 
 end
 
