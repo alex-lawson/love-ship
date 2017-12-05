@@ -82,6 +82,15 @@ function Animation:set_position(pos)
     self.position = pos
 end
 
+function Animation:set_centered(centered)
+    self.centered = centered
+    if self.centered then
+        self.draw_offset = self.frame_size * -0.5
+    else
+        self.draw_offset = vec2()
+    end
+end
+
 function Animation:set_rate(rate)
     assert(rate >= 0, "Animation rate must not be negative!")
     self.rate = rate

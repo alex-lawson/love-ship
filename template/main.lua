@@ -42,7 +42,7 @@ function love.draw()
 
     love.graphics.pop()
 
-    GameInstance:render_gui()
+    GameInstance:render_interface()
 
     Log:render()
     Fps:render()

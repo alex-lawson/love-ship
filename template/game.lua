@@ -12,7 +12,7 @@ function Game:render_world()
 
 end
 
-function Game:render_gui()
+function Game:render_interface()
 
 end
 
