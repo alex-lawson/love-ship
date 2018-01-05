@@ -93,7 +93,7 @@ function vec2.norm(v)
 end
 
 function vec2.angle(v)
-  local angle = math.atan(v[2], v[1])
+  local angle = math.atan2(v[2], v[1])
   if angle < 0 then angle = angle + 2 * math.pi end
   return angle
 end
