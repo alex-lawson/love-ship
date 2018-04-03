@@ -200,7 +200,7 @@ end
 
 function values(t)
     local vals = {}
-    for _,v in pairs(t) do
+    for _, v in pairs(t) do
         table.insert(vals, v)
     end
     return vals
@@ -213,6 +213,13 @@ function contains(list, item)
         end
     end
     return false
+end
+
+function shuffle(t)
+    for i, _ in ipairs(t) do
+        local j = love.math.random(1, #t)
+        t[i], t[j] = t[j], t[i]
+    end
 end
 
 function string:starts_with(s)
@@ -292,4 +299,3 @@ function construct_path(t, ...)
     end
     return t
 end
-

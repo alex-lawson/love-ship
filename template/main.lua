@@ -1,4 +1,5 @@
 require 'util/util'
+require 'util/color'
 require 'util/assets'
 require 'util/enum'
 require 'util/vec2'
